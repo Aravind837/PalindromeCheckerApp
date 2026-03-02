@@ -1,23 +1,33 @@
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
-        // Step 1: Define the original string
-        String original = "radar";
-        String reversed = "";
+        // Step 1: Define the input string
+        String input = "racecar";
 
-        // Step 2: Reverse the string using a for loop
-        // We iterate through the characters of the string in reverse order
-        for (int i = original.length() - 1; i >= 0; i--) {
-            // String concatenation (+) is used to build the reversed string
-            reversed += original.charAt(i);
+        // Step 2: Convert the string to a character array (char[])
+        // This allows for efficient index-based access to individual characters
+        char[] charArray = input.toCharArray();
+
+        // Step 3: Use the Two-Pointer Technique
+        // Initialize one pointer at the start and another at the end of the array
+        int left = 0;
+        int right = charArray.length - 1;
+        boolean isPalindrome = true;
+
+        // Step 4: Compare start and end characters moving towards the center
+        while (left < right) {
+            if (charArray[left] != charArray[right]) {
+                isPalindrome = false;
+                break; // Exit the loop if a mismatch is found
+            }
+            left++;  // Move the left pointer forward
+            right--; // Move the right pointer backward
         }
 
-        // Step 3: Compare the original and reversed strings
-        // The equals() method compares the actual content of the String objects
-        if (original.equals(reversed)) {
-            // Step 4: Display the result
-            System.out.println(original + " is a palindrome.");
+        // Step 5: Display the result
+        if (isPalindrome) {
+            System.out.println(input + " is a palindrome.");
         } else {
-            System.out.println(original + " is not a palindrome.");
+            System.out.println(input + " is not a palindrome.");
         }
     }
 }
