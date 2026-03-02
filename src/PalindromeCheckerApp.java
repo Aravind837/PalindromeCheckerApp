@@ -1,39 +1,35 @@
-import java.util.Stack;
-
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
-        // Define the input string
-        String input = "civic";
+        // Step 1: Define the input string
+        String input = "rotator";
 
-        // Initialize Queue (FIFO) and Stack (LIFO)
-        Queue<Character> queue = new LinkedList<>();
-        Stack<Character> stack = new Stack<>();
+        // Initialize a Deque (Double-Ended Queue)
+        // Deque allows insertion and deletion from both ends
+        Deque<Character> deque = new ArrayDeque<>();
 
-        // 1. Enqueue and Push characters
+        // Flow 1: Insert characters into the deque
         for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            queue.add(c);  // Enqueue operation
-            stack.push(c); // Push operation
+            deque.addLast(input.charAt(i));
         }
 
         boolean isPalindrome = true;
 
-        // 2. Compare dequeue vs pop
-        // Since queue is FIFO and stack is LIFO, comparing them
-        // effectively compares the string from start to finish
-        // against the string from finish to start.
-        while (!stack.isEmpty()) {
-            if (!stack.pop().equals(queue.remove())) {
+        // Flow 2 & 3: Remove first & last characters and compare until empty
+        // This enables direct comparison of the front and rear elements
+        while (deque.size() > 1) {
+            char first = deque.removeFirst();
+            char last = deque.removeLast();
+
+            if (first != last) {
                 isPalindrome = false;
                 break;
             }
         }
 
-        // 3. Print result
+        // Print the result
         if (isPalindrome) {
             System.out.println(input + " is a palindrome.");
         } else {
