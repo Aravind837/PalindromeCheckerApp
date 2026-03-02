@@ -1,30 +1,28 @@
+import java.util.Stack;
+
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
         // Step 1: Define the input string
-        String input = "racecar";
+        String input = "deified";
 
-        // Step 2: Convert the string to a character array (char[])
-        // This allows for efficient index-based access to individual characters
-        char[] charArray = input.toCharArray();
+        // Use a Stack to store characters (LIFO - Last In First Out)
+        Stack<Character> stack = new Stack<>();
 
-        // Step 3: Use the Two-Pointer Technique
-        // Initialize one pointer at the start and another at the end of the array
-        int left = 0;
-        int right = charArray.length - 1;
-        boolean isPalindrome = true;
-
-        // Step 4: Compare start and end characters moving towards the center
-        while (left < right) {
-            if (charArray[left] != charArray[right]) {
-                isPalindrome = false;
-                break; // Exit the loop if a mismatch is found
-            }
-            left++;  // Move the left pointer forward
-            right--; // Move the right pointer backward
+        // Step 1 (Flow): Push characters into stack
+        // This process stores characters in their original order
+        for (int i = 0; i < input.length(); i++) {
+            stack.push(input.charAt(i));
         }
 
-        // Step 5: Display the result
-        if (isPalindrome) {
+        // Step 2 (Flow): Pop and compare
+        // Popping from the stack naturally reverses the order
+        String reversed = "";
+        while (!stack.isEmpty()) {
+            reversed += stack.pop();
+        }
+
+        // Step 3 (Flow): Print result
+        if (input.equals(reversed)) {
             System.out.println(input + " is a palindrome.");
         } else {
             System.out.println(input + " is not a palindrome.");
