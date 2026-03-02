@@ -1,39 +1,76 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
+class Node {
+    char data;
+    Node next;
+
+    Node(char data) {
+        this.data = data;
+        this.next = null;
+    }
+}
 
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
-        // Step 1: Define the input string
-        String input = "rotator";
+        String input = "level";
+        Node head = convertToLinkedList(input);
 
-        // Initialize a Deque (Double-Ended Queue)
-        // Deque allows insertion and deletion from both ends
-        Deque<Character> deque = new ArrayDeque<>();
-
-        // Flow 1: Insert characters into the deque
-        for (int i = 0; i < input.length(); i++) {
-            deque.addLast(input.charAt(i));
-        }
-
-        boolean isPalindrome = true;
-
-        // Flow 2 & 3: Remove first & last characters and compare until empty
-        // This enables direct comparison of the front and rear elements
-        while (deque.size() > 1) {
-            char first = deque.removeFirst();
-            char last = deque.removeLast();
-
-            if (first != last) {
-                isPalindrome = false;
-                break;
-            }
-        }
-
-        // Print the result
-        if (isPalindrome) {
+        if (isPalindrome(head)) {
             System.out.println(input + " is a palindrome.");
         } else {
             System.out.println(input + " is not a palindrome.");
         }
+    }
+
+    // Flow 1: Convert string to linked list
+    private static Node convertToLinkedList(String s) {
+        if (s.isEmpty()) return null;
+        Node head = new Node(s.charAt(0));
+        Node current = head;
+        for (int i = 1; i < s.length(); i++) {
+            current.next = new Node(s.charAt(i));
+            current = current.next;
+        }
+        return head;
+    }
+
+    private static boolean isPalindrome(Node head) {
+        if (head == null || head.next == null) return true;
+
+        // Key Concept: Fast and Slow Pointer Technique to find the middle
+        Node slow = head;
+        Node fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Flow 2: Reverse second half (In-Place Reversal)
+        Node secondHalf = reverseList(slow);
+        Node firstHalf = head;
+
+        // Flow 3: Compare halves
+        Node temp = secondHalf;
+        boolean result = true;
+        while (temp != null) {
+            if (firstHalf.data != temp.data) {
+                result = false;
+                break;
+            }
+            firstHalf = firstHalf.next;
+            temp = temp.next;
+        }
+
+        return result;
+    }
+
+    private static Node reverseList(Node head) {
+        Node prev = null;
+        Node current = head;
+        while (current != null) {
+            Node next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        return prev;
     }
 }
