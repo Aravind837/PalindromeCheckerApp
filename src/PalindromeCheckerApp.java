@@ -1,28 +1,40 @@
 import java.util.Stack;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
-        // Step 1: Define the input string
-        String input = "deified";
+        // Define the input string
+        String input = "civic";
 
-        // Use a Stack to store characters (LIFO - Last In First Out)
+        // Initialize Queue (FIFO) and Stack (LIFO)
+        Queue<Character> queue = new LinkedList<>();
         Stack<Character> stack = new Stack<>();
 
-        // Step 1 (Flow): Push characters into stack
-        // This process stores characters in their original order
+        // 1. Enqueue and Push characters
         for (int i = 0; i < input.length(); i++) {
-            stack.push(input.charAt(i));
+            char c = input.charAt(i);
+            queue.add(c);  // Enqueue operation
+            stack.push(c); // Push operation
         }
 
-        // Step 2 (Flow): Pop and compare
-        // Popping from the stack naturally reverses the order
-        String reversed = "";
+        boolean isPalindrome = true;
+
+        // 2. Compare dequeue vs pop
+        // Since queue is FIFO and stack is LIFO, comparing them
+        // effectively compares the string from start to finish
+        // against the string from finish to start.
         while (!stack.isEmpty()) {
-            reversed += stack.pop();
+            if (!stack.pop().equals(queue.remove())) {
+                isPalindrome = false;
+                break;
+            }
         }
 
-        // Step 3 (Flow): Print result
-        if (input.equals(reversed)) {
+        // 3. Print result
+        if (isPalindrome) {
             System.out.println(input + " is a palindrome.");
         } else {
             System.out.println(input + " is not a palindrome.");
